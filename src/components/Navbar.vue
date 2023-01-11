@@ -7,7 +7,7 @@
     <ul class="flex items-center">
       <template v-if="authenticated">
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">{{user.name}}</router-link></li>
-        <li><a href="#" @click.prevent="LOGOUT" class="text-sm inline-block  p-3 text-gray-800">Logout</a></li>
+        <li><a href="#" @click.prevent="logout" class="text-sm inline-block  p-3 text-gray-800">Logout</a></li>
       </template>
       <template v-else>
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">Sign In</router-link></li>
@@ -29,7 +29,11 @@ export default {
   methods: {
     ...mapActions({
       'LOGOUT' : 'auth/LOGOUT'
-    })
+    }),
+    async logout(){
+      await this.LOGOUT();
+      this.$router.replace('/')
+    }
   }
 }
 </script>
