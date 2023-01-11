@@ -1,3 +1,4 @@
+@import 'filepond/dist/filepond.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,3 +6,11 @@
 body {
     @apply border-t-4 border-t-indigo-500
 }
+
+ .filepond--drop-label {
+    @apply rounded-lg p-12 bg-gray-200
+ }
+
+ .filepond--file {
+    @apply bg-indigo-500
+ }
