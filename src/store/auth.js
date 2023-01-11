@@ -36,6 +36,14 @@ export default  {
                 commit('UPDATE_AUTHENTICATED',false);
                 commit('SET_USER',null);
             }
+        },
+        async LOGOUT({dispatch}) {
+            try {
+                await axios.post('/api/logout');
+                return dispatch('GET_CURRENT_USER');//be sure to check user logout and update the state
+            } catch(e) {
+                console.log('error getting on logout',e);
+            }
         }
     }
 }
