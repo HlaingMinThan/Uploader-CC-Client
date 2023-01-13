@@ -11,6 +11,6 @@ body {
     @apply rounded-lg p-12 bg-gray-200
  }
 
- .filepond--file {
+ .filepond--item-panel {
     @apply bg-indigo-500
  }
