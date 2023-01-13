@@ -38,7 +38,7 @@ export default {
         }
     },
     mounted(){
-        FilePond.create(this.$refs.filepond, {
+        let pond = FilePond.create(this.$refs.filepond, {
             allowRevert:false,
             server  : {
                 //***process method not allowed to use async function***
@@ -67,6 +67,11 @@ export default {
                     extension : file.fileExtension,
                     size : file.fileSize
                 })
+            },
+            //after uploaded a file ,remove that file from uploaded file list
+            onprocessfile: (e,file) => {
+                if(e) return;
+                pond.removeFile(file);
             }
         })
     }
