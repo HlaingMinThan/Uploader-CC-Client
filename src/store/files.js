@@ -11,6 +11,9 @@ export default {
     mutations : {
         SET_FILES(state,value) {
             state.files = value;
+        },
+        ADD_FILE(state,file) {
+            state.files = [file,...state.files];
         }
     },
     actions : {

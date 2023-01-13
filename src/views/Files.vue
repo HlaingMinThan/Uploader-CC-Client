@@ -14,7 +14,7 @@
 <script>
 import File from '@/components/File.vue';
 import Uploader from '@/components/Uploader';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import axios from 'axios';
 export default {
     components: { File,Uploader },
@@ -22,13 +22,16 @@ export default {
         ...mapActions({
             GET_FILES: 'files/GET_FILES'
         }),
+        ...mapMutations({
+            ADD_FILE: 'files/ADD_FILE'
+        }),
         async onprocessfile(file) {
             let res = await axios.post('/api/files',{
                 'name' : file.filename,
                 'size' : file.fileSize,
                 'path' : file.serverId
             });
-            console.log(res)
+            this.ADD_FILE(res.data.data);
         }
     },
     computed:{
