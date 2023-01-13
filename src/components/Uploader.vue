@@ -26,7 +26,7 @@ export default {
             formData.append('file',file);
             return formData;
         },
-       async uploadFileToS3(attributes,formData,progress,load,cancelToken){
+       async uploadFileToS3(attributes,formData,progress,load,cancelToken,serverId){
             await axios.post(attributes.action,formData,{
                 onUploadProgress(e){
                     progress(e.event.lengthComputable,e.loaded,e.total);
@@ -34,7 +34,7 @@ export default {
                 cancelToken
             });
             //mark as complete
-            load();
+            load(serverId); // we can pass serverId from this functin parameter
         }
     },
     mounted(){
@@ -47,7 +47,7 @@ export default {
 
                     this.getSignUrlInfos(metaData).then(({attributes,form_input}) => {
                         let formData = this.buildFormData(file,form_input);
-                        this.uploadFileToS3(attributes,formData,progress,load,cancelTokenSource.token)
+                        this.uploadFileToS3(attributes,formData,progress,load,cancelTokenSource.token,form_input.key)
                     });
 
                    return {
@@ -72,6 +72,7 @@ export default {
             onprocessfile: (e,file) => {
                 if(e) return;
                 pond.removeFile(file);
+                this.$emit('onprocessfile',file);
             }
         })
     }

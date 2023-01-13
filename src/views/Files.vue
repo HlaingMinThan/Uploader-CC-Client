@@ -1,7 +1,7 @@
 <template>
     <div class="p-3 md:p-0">
         <div class="mb-8">
-            <Uploader/>
+            <Uploader @onprocessfile="onprocessfile"/>
         </div>
         <div>
             <h3 class="text-gray-600">Your Files</h3>
@@ -15,12 +15,21 @@
 import File from '@/components/File.vue';
 import Uploader from '@/components/Uploader';
 import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
 export default {
     components: { File,Uploader },
     methods : {
         ...mapActions({
             GET_FILES: 'files/GET_FILES'
-        })
+        }),
+        async onprocessfile(file) {
+            let res = await axios.post('/api/files',{
+                'name' : file.filename,
+                'size' : file.fileSize,
+                'path' : file.serverId
+            });
+            console.log(res)
+        }
     },
     computed:{
         ...mapGetters({
