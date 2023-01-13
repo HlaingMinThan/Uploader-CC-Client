@@ -26,11 +26,12 @@ export default {
             formData.append('file',file);
             return formData;
         },
-       async uploadFileToS3(attributes,formData,progress,load){
+       async uploadFileToS3(attributes,formData,progress,load,cancelToken){
             await axios.post(attributes.action,formData,{
                 onUploadProgress(e){
                     progress(e.event.lengthComputable,e.loaded,e.total);
-                }
+                },
+                cancelToken
             });
             //mark as complete
             load();
@@ -40,10 +41,23 @@ export default {
         FilePond.create(this.$refs.filepond, {
             allowRevert:false,
             server  : {
-                process : async(fieldName,file,metaData,load,error,progress,abort) => {
-                    let  {attributes,form_input} =await this.getSignUrlInfos(metaData);
-                    let formData = this.buildFormData(file,form_input);
-                    await this.uploadFileToS3(attributes,formData,progress,load)
+                //***process method not allowed to use async function***
+                process : (fieldName,file,metaData,load,error,progress,abort) => {
+                    let cancelTokenSource = axios.CancelToken.source();
+
+                    this.getSignUrlInfos(metaData).then(({attributes,form_input}) => {
+                        let formData = this.buildFormData(file,form_input);
+                        this.uploadFileToS3(attributes,formData,progress,load,cancelTokenSource.token)
+                    });
+
+                   return {
+                        abort: () => {
+                            //cancel the upload api request
+                            cancelTokenSource.cancel();
+                            //remove from filepond files list
+                            abort();
+                        },
+                    };
                 }
             },
             onaddfile(e,file) {
