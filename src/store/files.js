@@ -14,6 +14,9 @@ export default {
         },
         ADD_FILE(state,file) {
             state.files = [file,...state.files];
+        },
+        DELETE_FILE(state,uuid) {
+            state.files = state.files.filter(file => file.uuid !== uuid);
         }
     },
     actions : {
@@ -24,6 +27,10 @@ export default {
             }catch(e) {
                 console.log('getting files got error',e);
             }
+        },
+        async DELETE_FILE({commit},uuid) {
+            commit('DELETE_FILE',uuid)
+            await axios.delete(`/api/files/${uuid}`);
         }
     }
 }
