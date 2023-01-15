@@ -16,7 +16,8 @@ export default {
              //get signed upload url and infos for upload file
             let res = await axios.post('/api/files/signed',{
                 name : metaData.name,
-                extension : metaData.extension
+                extension : metaData.extension,
+                size : metaData.size
             });
             //build a form using the signed upload api response
             return res.data;
