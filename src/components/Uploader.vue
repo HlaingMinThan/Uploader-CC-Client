@@ -48,11 +48,17 @@ export default {
             server  : {
                 //***process method not allowed to use async function***
                 process : (fieldName,file,metaData,load,error,progress,abort) => {
+                    this.$emit('validationError','');
                     let cancelTokenSource = axios.CancelToken.source();
 
                     this.getSignUrlInfos(metaData).then(({attributes,form_input}) => {
                         let formData = this.buildFormData(file,form_input);
                         this.uploadFileToS3(attributes,formData,progress,load,cancelTokenSource.token,form_input.key)
+                    }).catch(e => {
+                        if (e.response.status === 422) {
+                            this.$emit('validationError',e.response.data.message);
+                            abort();
+                        }
                     });
 
                    return {

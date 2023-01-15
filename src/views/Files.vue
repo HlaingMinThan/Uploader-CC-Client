@@ -1,7 +1,10 @@
 <template>
     <div class="p-3 md:p-0">
+        <div v-if="errMessage" class="bg-red-600 p-3 text-sm my-4 rounded-md text-white">
+            {{errMessage}}
+        </div>
         <div class="mb-8">
-            <Uploader @onprocessfile="onprocessfile"/>
+            <Uploader @onprocessfile="onprocessfile" @validationError="msg => errMessage = msg"/>
         </div>
         <div>
             <h3 class="text-gray-600">Your Files</h3>
@@ -21,6 +24,11 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import axios from 'axios';
 export default {
     components: { File,Uploader },
+    data(){
+        return{
+            errMessage : ''
+        }
+    },
     methods : {
         ...mapActions({
             GET_FILES: 'files/GET_FILES'
