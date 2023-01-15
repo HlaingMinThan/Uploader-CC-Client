@@ -6,7 +6,10 @@
         <div>
             <h3 class="text-gray-600">Your Files</h3>
             <div class="border-b-2 border-gray-100 my-3"></div>
-            <File v-for="file in files" :file="file" :key="file.uuid"/>
+            <template v-if="files.length">
+                <File v-for="file in files" :file="file" :key="file.uuid" />
+            </template>
+            <p v-else class="text-gray-500 text-sm">there are no files here right now.</p>
         </div>
     </div>
 </template>
