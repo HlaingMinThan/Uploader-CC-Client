@@ -5,9 +5,13 @@
 <script>
 import * as FilePond from 'filepond';
 import axios from 'axios';
+import { mapMutations } from 'vuex';
 
 export default {
     methods: {
+        ...mapMutations({
+            INCREMENT_USAGE : "usage/INCREMENT_USAGE"
+        }),
         async getSignUrlInfos(metaData){
              //get signed upload url and infos for upload file
             let res = await axios.post('/api/files/signed',{
@@ -72,6 +76,7 @@ export default {
             onprocessfile: (e,file) => {
                 if(e) return;
                 pond.removeFile(file);
+                this.INCREMENT_USAGE(file.fileSize);
                 this.$emit('onprocessfile',file);
             }
         })

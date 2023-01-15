@@ -9,9 +9,15 @@ export default {
         usage : (state) => state.usage
     },
     mutations : {
-       SET_USAGE(state,usage) {
-        state.usage = usage
-       }
+        SET_USAGE(state,usage) {
+            state.usage = usage
+        },
+        INCREMENT_USAGE(state,usage) {
+            state.usage +=  usage
+        },
+        DECREMENT_USAGE(state,usage) {
+            state.usage -=  usage
+        },
     },
     actions : {
         async GET_USER_USAGE({commit}) {
