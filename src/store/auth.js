@@ -30,7 +30,7 @@ export default  {
                 let response = await axios.get('/api/user');
                 //authenticated
                 commit('UPDATE_AUTHENTICATED',true);
-                commit('SET_USER',response.data);
+                commit('SET_USER',response.data.data);
             } catch(e) {
                 //unauthenticated
                 commit('UPDATE_AUTHENTICATED',false);
