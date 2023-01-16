@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapActions } from 'vuex'
 
 // eslint-disable-next-line no-undef
@@ -43,8 +44,23 @@ export default {
       await this.LOGIN(this.form);
       this.$router.replace({name:'Home'})
     },
-    submit(){
-      console.log('submit')
+    async submit(){
+      let res = await axios.get('/api/subscriptions/intent');
+      let { client_secret } = res.data;
+      let { setupIntent , error}= await stripe.confirmCardSetup(client_secret, {
+        payment_method: {
+          card,
+          billing_details: {
+            name: this.form.name,
+          },
+        },
+      });
+
+      if(error) {
+        console.log('get error')
+      }else {
+        console.log('success')
+      }
     }
   },
   mounted(){
