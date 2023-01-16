@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Files from '../views/Files.vue'
 import SignIn from '../views/SignIn.vue'
 import Plans from '../views/Plans.vue'
+import Checkout from '../views/Checkout.vue'
 
 const routes = [
   {
@@ -24,6 +25,12 @@ const routes = [
     path: '/plans',
     name: 'Plans',
     component: Plans
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout,
+    props : route => ({ plan: route.query.plan })
   },
 ]
 

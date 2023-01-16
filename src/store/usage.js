@@ -23,7 +23,6 @@ export default {
         async GET_USER_USAGE({commit}) {
             try {
                 let res = await axios.get('/api/user/usage');
-                console.log(res)
                 commit('SET_USAGE',res.data.data)
             }catch(e) {
                 console.log('getting files got error',e);

@@ -27,7 +27,6 @@ export default {
       async deleteFile(){
         if(window.confirm('are you sure ?')) {
           await this.DELETE_FILE(this.file.uuid);
-          console.log(this.file.size,'event of decrement')
           this.DECREMENT_USAGE(this.file.size)
         }
       }
