@@ -2,7 +2,7 @@
   <nav class="flex justify-between items-center flex-wrap md:flex-no-wrap -mx-3 -mt-3">
     <ul class="flex items-center">
       <li><router-link to="/" class="text-sm inline-block  p-3 text-gray-800">Home</router-link></li>
-      <li><router-link :to="{name : 'Files' }" class="text-sm inline-block  p-3 text-gray-800">Your Files</router-link></li>
+      <li v-if="authenticated"><router-link :to="{name : 'Files' }" class="text-sm inline-block  p-3 text-gray-800">Your Files</router-link></li>
     </ul>
     <div class="flex justify-center order-last w-full md:w-fit md:order-none"  v-if="authenticated">
       <Usage/>
@@ -11,6 +11,7 @@
       <template v-if="authenticated">
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">{{user.name}}</router-link></li>
         <li><a href="#" @click.prevent="logout" class="text-sm inline-block  p-3 text-gray-800">Logout</a></li>
+        <li><router-link class="bg-indigo-500 px-2 py-1 text-sm text-white rounded-lg" to="/plans">Upgrade</router-link></li>
       </template>
       <template v-else>
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">Sign In</router-link></li>
