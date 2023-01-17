@@ -9,6 +9,7 @@
         <label for="password" class="inline-block mb-4 text-sm">Card Details</label>
         <div ref="card" class="border-2 border-gray-100 p-3"></div>
       </div>
+      <p v-if="err_message" class="text-red-500 text-sm my-3"> {{err_message}}</p>
       <button class="bg-indigo-500 px-6 py-2 text-white rounded-lg">Pay Now</button>
     </form>
 </template>
@@ -32,6 +33,7 @@ export default {
   },
   data(){
     return{
+      err_message : '',
       form:{
         name:'',
       }
@@ -57,10 +59,16 @@ export default {
       });
 
       if(error) {
-        console.log('get error')
+        this.err_message = error.message;
       }else {
-        console.log('success')
+        await this.createSubscription(setupIntent.payment_method)
       }
+    },
+    async createSubscription(paymentMethodId) {
+      await axios.post('/api/subscriptions/store',{
+        plan : this.plan,
+        paymentMethodId
+      });
     }
   },
   mounted(){
