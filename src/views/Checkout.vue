@@ -10,7 +10,13 @@
         <div ref="card" class="border-2 border-gray-100 p-3"></div>
       </div>
       <p v-if="err_message" class="text-red-500 text-sm my-3"> {{err_message}}</p>
-      <button class="bg-indigo-500 px-6 py-2 text-white rounded-lg">Pay Now</button>
+      <button class="bg-indigo-500 px-6 py-2 text-white rounded-lg flex items-center" :class="{'opacity-50':loading}">
+        <svg v-if="loading"  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+        Pay Now
+      </button>
     </form>
 </template>
 
@@ -33,6 +39,7 @@ export default {
   },
   data(){
     return{
+      loading : false,
       err_message : '',
       form:{
         name:'',
@@ -41,12 +48,11 @@ export default {
   },
   inject:['$ucFirst'],
   methods : {
-    ...mapActions({'LOGIN':'auth/LOGIN'}),
-    async login(){
-      await this.LOGIN(this.form);
-      this.$router.replace({name:'Home'})
-    },
+    ...mapActions({
+      'GET_CURRENT_USER':'auth/GET_CURRENT_USER'
+      }),
     async submit(){
+      this.loading = true;
       let res = await axios.get('/api/subscriptions/intent');
       let { client_secret } = res.data;
       let { setupIntent , error}= await stripe.confirmCardSetup(client_secret, {
@@ -64,11 +70,14 @@ export default {
         await this.createSubscription(setupIntent.payment_method)
       }
     },
-    async createSubscription(paymentMethodId) {
+    async createSubscription(paymentMethodId) {      
       await axios.post('/api/subscriptions/store',{
         plan : this.plan,
         paymentMethodId
       });
+      await this.GET_CURRENT_USER();
+      this.loading = false;
+      this.$router.replace({name : 'Home'})
     }
   },
   mounted(){
