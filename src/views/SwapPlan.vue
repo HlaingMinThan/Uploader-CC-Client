@@ -2,7 +2,7 @@
     <form action="" @submit.prevent="swapPlan" class="p-4 md:p-0" v-if="plans.length">
         <div class="mt-10">
             <div v-for="plan in plans" :key="plan.id" class="flex">
-                <input type="radio" name="" :id="`plan_${plan.slug}`" class="mr-3" v-model="form.plan" :value="plan.slug" v-if="plan.can_downgrade">
+                <input type="radio" name="" :id="`plan_${plan.slug}`" class="mr-3" v-model="form.plan" :value="plan.slug" v-if="plan.can_swap">
                 <label :for="`plan_${plan.slug}`" class="flex-grow">
                     <Plan :plan="plan"/>
                 </label>
@@ -42,7 +42,7 @@ export default {
         'user' : 'auth/user'
         }),
         showSwapBtn(){
-            return this.plans.filter(plan => plan.can_downgrade).length;
+            return this.plans.filter(plan => plan.can_swap).length;
         }
     },
     methods : {
