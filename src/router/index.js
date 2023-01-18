@@ -5,6 +5,7 @@ import SignIn from '../views/SignIn.vue'
 import Plans from '../views/Plans.vue'
 import Checkout from '../views/Checkout.vue'
 import MyAccount from '../views/MyAccount.vue'
+import SwapPlan from '../views/SwapPlan.vue'
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     path: '/plans',
     name: 'Plans',
     component: Plans
+  },
+  {
+    path: '/swap-plan',
+    name: 'SwapPlan',
+    component: SwapPlan
   },
   {
     path: '/my-account',

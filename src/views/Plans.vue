@@ -1,6 +1,8 @@
 <template>
   <div class="mt-10">
-    <Plan v-for="plan in plans" :key="plan.id" :plan="plan"/>
+    <router-link :to="{name : 'Checkout', query : {plan : plan.slug}}" v-for="plan in plans" :key="plan.id">
+      <Plan  :plan="plan" v-if="!plan.free" />
+    </router-link>
   </div>
 </template>
 

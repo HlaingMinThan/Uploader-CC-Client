@@ -1,10 +1,10 @@
 <template>
-  <router-link :to="{name : 'Checkout', query : {plan : plan.slug}}" class="flex justify-between border-2 border-gray-200 py-4 px-4 rounded-xl my-3" v-if="!plan.free">
+    <div class="flex justify-between border-2 border-gray-200 py-4 px-4 rounded-xl my-3">
         <h3 class="text-lg">{{$ucFirst(plan.name)}} - {{formattedStorage}}</h3>
         <div class="text-xl text-indigo-500 font-bold">
             {{plan.price/100}} USD
         </div>
-    </router-link>
+    </div>
 </template>
 
 <script>
