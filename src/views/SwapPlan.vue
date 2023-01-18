@@ -1,5 +1,5 @@
 <template>
-    <form action="" @submit.prevent="swapPlan" class="p-4 md:p-0">
+    <form action="" @submit.prevent="swapPlan" class="p-4 md:p-0" v-if="plans.length">
         <div class="mt-10">
             <div v-for="plan in plans" :key="plan.id" class="flex">
                 <input type="radio" name="" :id="`plan_${plan.slug}`" class="mr-3" v-model="form.plan" :value="plan.slug" v-if="plan.can_downgrade">
