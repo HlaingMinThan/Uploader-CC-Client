@@ -4,6 +4,7 @@ import Files from '../views/Files.vue'
 import SignIn from '../views/SignIn.vue'
 import Plans from '../views/Plans.vue'
 import Checkout from '../views/Checkout.vue'
+import MyAccount from '../views/MyAccount.vue'
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/plans',
     name: 'Plans',
     component: Plans
+  },
+  {
+    path: '/my-account',
+    name: 'MyAccount',
+    component: MyAccount
   },
   {
     path: '/checkout',

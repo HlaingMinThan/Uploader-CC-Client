@@ -77,7 +77,7 @@ export default {
       });
       await this.GET_CURRENT_USER();
       this.loading = false;
-      this.$router.replace({name : 'Home'})
+      this.$router.replace({name : 'MyAccount'})
     }
   },
   mounted(){

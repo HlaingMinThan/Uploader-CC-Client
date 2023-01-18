@@ -9,9 +9,9 @@
     </div>
     <ul class="flex items-center">
       <template v-if="authenticated">
-        <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">{{user.name}}</router-link></li>
+        <li><router-link to="/my-account" class="text-sm inline-block  p-3 text-gray-800">{{user.name}}</router-link></li>
         <li><a href="#" @click.prevent="logout" class="text-sm inline-block  p-3 text-gray-800">Logout</a></li>
-        <li><router-link class="bg-indigo-500 px-2 py-1 text-sm text-white rounded-lg" to="/plans">Upgrade</router-link></li>
+        <li v-if="!user.subscribed"><router-link class="bg-indigo-500 px-2 py-1 text-sm text-white rounded-lg" to="/plans">Upgrade</router-link></li>
       </template>
       <template v-else>
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">Sign In</router-link></li>
