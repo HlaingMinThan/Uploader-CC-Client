@@ -24,7 +24,7 @@
 <script>
 import axios from 'axios'
 import Plan from '@/components/Plan.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {Plan},
@@ -33,7 +33,8 @@ export default {
                 plans: [],
                 form : {
                     plan : null
-                }
+                },
+                loading:false
         }
     },
     computed : {
@@ -45,14 +46,21 @@ export default {
         }
     },
     methods : {
-        swapPlan(){
-            console.log('swap')
+        ...mapActions({
+        'GET_CURRENT_USER':'auth/GET_CURRENT_USER'
+        }),
+        async swapPlan(){
+            if(!this.form.plan) return;
+            this.loading=true;
+            await axios.patch('/api/subscriptions/swap',this.form);
+            await this.GET_CURRENT_USER();
+            this.loading=false;
+            this.$router.replace({name : "MyAccount"});
         }
     },
     async mounted() {
         const res = await axios.get('/api/plans');
         this.plans = res.data.data;
-        this.form.plan = this.user.plan.slug; // select user current plan
     }
 }
 </script>
