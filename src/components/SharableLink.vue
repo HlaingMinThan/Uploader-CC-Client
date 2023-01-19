@@ -4,6 +4,9 @@
 
 <script>
 import axios from 'axios'
+import { useToast } from "vue-toastification";
+const toast = useToast();
+
 export default {
   props : {
     file : {
@@ -11,11 +14,13 @@ export default {
       required : true
     }
   },
+  inject: ['$toast'],
   methods: {
     copyToClipboard(value) {
       if(navigator && navigator.clipboard) {
         navigator.clipboard.writeText(value);
-        console.log('copied')
+        console.log(toast);
+         toast.info("copied to clipboard.ready to share!");
       }else {
         alert('browser not supportted');
       }
