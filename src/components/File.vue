@@ -11,6 +11,9 @@
 <script>
 import { mapActions, mapMutations } from 'vuex';
 import SharableLink from '@/components/SharableLink.vue';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export default {
     props : {
@@ -33,6 +36,7 @@ export default {
         if(window.confirm('are you sure ?')) {
           await this.DELETE_FILE(this.file.uuid);
           this.DECREMENT_USAGE(this.file.size)
+          toast.error(this.file.name+' was deleted');
         }
       }
     }

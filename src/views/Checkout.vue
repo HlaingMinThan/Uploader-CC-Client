@@ -18,12 +18,15 @@
 import axios from 'axios';
 import Button from '@/components/Button.vue';
 import { mapActions } from 'vuex'
+import { useToast } from 'vue-toastification';
 
 // eslint-disable-next-line no-undef
 let stripe = Stripe(process.env.VUE_APP_STRIPE_KEY);
 let elements = stripe.elements();
 let card = elements.create('card');
 
+
+const toast = useToast();
 
 export default {
   props : {
@@ -49,6 +52,7 @@ export default {
       }),
     async submit(){
       try { 
+        this.err_message = '';
         this.loading = true;
         let res = await axios.get('/api/subscriptions/intent');
         let { client_secret } = res.data;
@@ -63,6 +67,7 @@ export default {
 
         if(error) {
           this.err_message = error.message;
+          this.loading = false;
         }else {
           await this.createSubscription(setupIntent.payment_method)
         }
@@ -77,6 +82,7 @@ export default {
       });
       await this.GET_CURRENT_USER();
       this.loading = false;
+      toast.info('Enjoy.You are on '+this.plan+' plan.');
       this.$router.replace({name : 'MyAccount'})
     }
   },

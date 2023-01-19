@@ -17,6 +17,9 @@
 <script>
 import { mapActions } from 'vuex'
 import Button from '@/components/Button.vue';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export default {
   components : { Button },
@@ -36,6 +39,7 @@ export default {
         this.loading = true;
         await this.LOGIN(this.form);
         this.loading = false;
+        toast.info('Welcome Back');
         this.$router.replace({name:'Home'})
       }catch (e) {
         this.loading = false;

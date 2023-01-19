@@ -20,6 +20,9 @@ import axios from 'axios'
 import Plan from '@/components/Plan.vue';
 import Button from '@/components/Button.vue';
 import { mapActions, mapGetters } from 'vuex';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 export default {
     components: { Plan, Button },
@@ -38,6 +41,10 @@ export default {
         }),
         showSwapBtn(){
             return this.plans.filter(plan => plan.can_swap).length;
+        },
+        chosenPlan(){
+            console.log(this.plans.find(p=>p.slug === this.form.plan))
+            return this.plans.find(p=>p.slug === this.form.plan);
         }
     },
     methods : {
@@ -45,12 +52,17 @@ export default {
         'GET_CURRENT_USER':'auth/GET_CURRENT_USER'
         }),
         async swapPlan(){
-            if(!this.form.plan) return;
-            this.loading=true;
-            await axios.patch('/api/subscriptions/swap',this.form);
-            await this.GET_CURRENT_USER();
-            this.loading=false;
-            this.$router.replace({name : "MyAccount"});
+            try {
+                if(!this.form.plan) return;
+                this.loading=true;
+                await axios.patch('/api/subscriptions/swap',this.form);
+                await this.GET_CURRENT_USER();
+                this.loading=false;
+                toast.info('Plan changed to '+this.chosenPlan.name+' plan.');
+                this.$router.replace({name : "MyAccount"});
+            }catch(e) {
+                this.loading = false;
+            }
         }
     },
     async mounted() {
