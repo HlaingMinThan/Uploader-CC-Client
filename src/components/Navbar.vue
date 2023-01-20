@@ -15,7 +15,7 @@
       </template>
       <template v-else>
         <li><router-link to="/sign-in" class="text-sm inline-block  p-3 text-gray-800">Sign In</router-link></li>
-        <li><router-link to="" class="text-sm inline-block  p-3 text-gray-800">Create Account</router-link></li>
+        <li><router-link to="/register" class="text-sm inline-block  p-3 text-gray-800">Create Account</router-link></li>
       </template>
     </ul>
   </nav>
