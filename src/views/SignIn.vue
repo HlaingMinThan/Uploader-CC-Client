@@ -48,8 +48,8 @@ export default {
         if(e.response.status === 422 ) {
           console.log()
           this.errors ={
-            email : e.response.data.errors.email[0],
-            password : e.response.data.errors.password[0]
+            email : e.response.data.errors.email && e.response.data.errors.email[0],
+            password : e.response.data.errors.password && e.response.data.errors.password[0]
           }
         }
         this.loading = false;
