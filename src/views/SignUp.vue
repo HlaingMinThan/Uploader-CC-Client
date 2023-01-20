@@ -58,6 +58,7 @@ export default {
         if(e.response.status === 422 ) {
           console.log()
           this.errors ={
+            name : e.response.data.errors.name[0],
             email : e.response.data.errors.email[0],
             password : e.response.data.errors.password[0]
           }
