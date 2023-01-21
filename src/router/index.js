@@ -31,7 +31,10 @@ const routes = [
   {
     path: '/sign-in',
     name: 'SignIn',
-    component: SignIn
+    component: SignIn,
+    meta : {
+      middleware : [guest]
+    }
   },
   {
     path: '/register',
